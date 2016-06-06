@@ -1,0 +1,208 @@
+package ui;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.JDesktopPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.UIManager;
+
+import entidades.Persona;
+
+import javax.swing.ImageIcon;
+
+public class MyApplicationWindow1 {
+
+	private JFrame frmMiPrimerFrame;
+	private JDesktopPane desktopPane;
+	private JTextField txtNombre;
+	private JTextField txtApellido;
+	private JTextField txtDni;
+	private JLabel lblApellido;
+	private JLabel lblDni;
+	private JButton botonCruz;
+	private JCheckBox chckbxHabilitado;
+	private ArrayList<Persona> personas = new ArrayList<Persona>(); 
+	private JLabel mensajeError;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MyApplicationWindow1 window = new MyApplicationWindow1();
+					window.frmMiPrimerFrame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public MyApplicationWindow1() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmMiPrimerFrame = new JFrame();
+		frmMiPrimerFrame.setTitle("Mi Primer Frame");
+		frmMiPrimerFrame.setBounds(100, 100, 686, 472);
+		frmMiPrimerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		desktopPane = new JDesktopPane();
+		desktopPane.setBackground(UIManager.getColor("Button.background"));
+		GroupLayout groupLayout = new GroupLayout(frmMiPrimerFrame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		txtNombre = new JTextField();
+		txtNombre.setBounds(82, 44, 225, 20);
+		desktopPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		txtApellido = new JTextField();
+		txtApellido.setBounds(82, 93, 225, 20);
+		desktopPane.add(txtApellido);
+		txtApellido.setColumns(10);
+		
+		txtDni = new JTextField();
+		txtDni.setBounds(82, 144, 225, 20);
+		desktopPane.add(txtDni);
+		txtDni.setColumns(10);
+		
+		chckbxHabilitado = new JCheckBox("Habilitado");
+		chckbxHabilitado.setBounds(10, 188, 378, 23);
+		desktopPane.add(chckbxHabilitado);
+		
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(10, 47, 46, 14);
+		desktopPane.add(lblNombre);
+		
+		lblApellido = new JLabel("Apellido");
+		lblApellido.setBounds(10, 96, 46, 14);
+		desktopPane.add(lblApellido);
+		
+		lblDni = new JLabel("DNI");
+		lblDni.setBounds(10, 147, 46, 14);
+		desktopPane.add(lblDni);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(MyApplicationWindow1.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
+		btnNewButton.setBounds(82, 242, 68, 63);
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				crearNuevaPersona();
+			}
+		});
+		desktopPane.add(btnNewButton);
+		
+		botonCruz = new JButton("");
+		botonCruz.setIcon(new ImageIcon(MyApplicationWindow1.class.getResource("/javax/swing/plaf/metal/icons/ocean/error.png")));
+		botonCruz.setBounds(178, 242, 68, 66);
+		desktopPane.add(botonCruz);
+		
+		mensajeError = new JLabel("");
+		mensajeError.setForeground(new Color(255, 0, 0));
+		mensajeError.setBounds(82, 11, 420, 14);
+		desktopPane.add(mensajeError);
+		botonCruz.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				limpiarCampos();
+			}
+		});
+		frmMiPrimerFrame.getContentPane().setLayout(groupLayout);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frmMiPrimerFrame.setJMenuBar(menuBar);
+		
+		JMenu mnArchivo = new JMenu("Archivo");
+		menuBar.add(mnArchivo);
+		
+		JMenuItem mntmNuevoSaludo = new JMenuItem("Nuevo Saludo");
+		mntmNuevoSaludo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirNuevoSaludo();
+			}
+		});
+		mnArchivo.add(mntmNuevoSaludo);
+	}
+
+	protected void abrirNuevoSaludo() {
+		Saludo s = new Saludo();
+		desktopPane.add(s);
+		//s.pack();
+		
+		s.setVisible(true);
+	}
+	protected void crearNuevaPersona(){
+		if(txtNombre.getText().equals("")||txtApellido.getText().equals("")||txtDni.getText().equals("")){
+			mensajeError.setText("Completar todos los campos");
+		}else{
+			mensajeError.setText("");
+			Persona p = new Persona(txtNombre.getText(),txtApellido.getText(),txtDni.getText(),chckbxHabilitado.isSelected());
+			personas.add(p);
+			mostrarPersonas();
+		}
+	}
+	
+	protected void mostrarPersonas(){
+		
+		for(Persona p : personas){					
+			
+			System.out.println("\nNombre " +  p.getNombre() + " \nApellido: " + p.getApellido() + " \nDNI: " + p.getDni()  );
+			
+			if(p.isHabilitado()){
+				System.out.println("Estado: habilitado");
+			}else{
+				System.out.println("Estado: no habilitado");
+			}
+		}
+	}
+	
+	protected void limpiarCampos(){
+		txtNombre.setText("");
+		txtApellido.setText("");
+		txtDni.setText("");
+		chckbxHabilitado.setSelected(false);
+		
+	}
+}
